@@ -1,0 +1,56 @@
+{#
+mjvocabulary - Simple Google AppEngine based vocabulary tester
+Copyright (C) 2012 Martin Jambor
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %}Vocabulary test - import{% endblock %}
+{% block content %}
+<h1>Import into set {{ tsetname }}</h1>
+    
+<p>
+  Select source from which a CSV should be imported to set
+  {{ tsetname }}.<br>
+  At most 200 words will be imported.
+</p>
+
+<form action="/importset" enctype="multipart/form-data" method="post">
+  <input name="tsid" type="hidden" value="{{ tsid }}">
+  <table>
+    <tr>
+      <td>
+	From URL:
+      </td>
+      <td>
+	<input name="csvurl" type="text" size="60" value="https://">
+      </td>
+      <td>
+	<input type="submit" name="urlsubmit" value="Import from URL">
+      </td>
+    </tr>
+    <td>
+      From a file:
+    </td>
+    <td>
+      <input name="csvfile" type="file" size="50">
+    </td>
+    <td>
+      <input type="submit" name="filesubmit" value="Import from file">
+    </td>
+  </table>
+</form>
+{% endblock %}
+    

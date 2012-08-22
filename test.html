@@ -1,0 +1,50 @@
+{#
+mjvocabulary - Simple Google AppEngine based vocabulary tester
+Copyright (C) 2012 Martin Jambor
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block body_tag %}<body OnLoad="document.testform.wordval.focus();">
+  {% endblock %}
+{% block content %}
+<h1>Test: {{ tsetname }}</h1>
+
+  <p>
+    {{ prev_result }}
+  </p>
+  <hr>
+  <p>
+    What is the word described by:
+    <pre>
+{{ desc }}
+    </pre>
+  </p>
+  <p>
+    Your answer:
+    <form name="testform" action="/test" method="post">
+      <input name="answer" type="hidden" value="1">
+      <input name="tsid" type="hidden" value="{{ tsid }}">
+      <input name="wid" type="hidden" value="{{ wid }}">
+      <input name="wordval" type="text" autocomplete="off" size="30"
+	     onkeypress="return spanish_letters(event)" value="">
+      <input type="submit" value="Answer">	
+    </form>
+    This word has {{ num_right }} correct and {{ num_wrong }} incorrect
+    answers so far.
+  </p>
+{% endblock %}
+
+  

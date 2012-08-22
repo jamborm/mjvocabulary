@@ -1,0 +1,35 @@
+{#
+mjvocabulary - Simple Google AppEngine based vocabulary tester
+Copyright (C) 2012 Martin Jambor
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block content %}
+<h1>Vocabulary test</h1>
+
+<p> {{ extra_info }} </p>
+
+<p> Welcome to Vocabulary Test. </p>
+
+<p>
+  In order to use this application you have to 
+  <a href="{{ url }}">login</a> with your Google account.
+</p>
+{% endblock %}
+{% block footer %}
+  <a href="/license">License</a>
+  <img id="appengine_logo" src="https://developers.google.com/appengine/images/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" />
+{% endblock %}

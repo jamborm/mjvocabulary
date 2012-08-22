@@ -1,0 +1,140 @@
+{#
+mjvocabulary - Simple Google AppEngine based vocabulary tester
+Copyright (C) 2012 Martin Jambor
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %}Vocabulary test - {{ name }}{% endblock %}
+{% block body_tag %}
+  {% if afteredit %}
+    <body OnLoad="document.addform.word.focus();">
+  {% else %}
+    <body>
+  {% endif %}
+{% endblock %}
+{% block content %}
+  <h1>{{ name }}</h1>
+  <p> {{ extra_info }} </p>
+  <hr>
+  <table>
+    <tr>
+      <td>
+	<form action="/test" method="post">
+	  <input name="tsid" type="hidden" value="{{ tsid }}">
+	  <input type="submit" value="Start test">
+	</form>
+      </td>
+      <td>
+	<form action="/renameset" method="post">
+	  <input name="tsid" type="hidden" value="{{ tsid }}">
+	  <input name="set_name" type="text" size="20" maxlength="30"
+		 value="{{ name }}">
+	  <input type="submit" value="Rename this set">
+	</form>
+      </td>
+      <td>
+	<form action="/importset" method="post">
+	  <input name="tsid" type="hidden" value="{{ tsid }}">
+	  <input type="submit" value="Import">
+	</form>
+      </td>
+      <td>
+	<form action="/exportset" method="post">
+	  <input name="tsid" type="hidden" value="{{ tsid }}">
+	  <input type="submit" value="Export">
+	</form>
+	</td>
+      <td>
+	<form action="/resetset" method="post">
+	  <input name="tsid" type="hidden" value="{{ tsid }}">
+	  <input type="submit" value="Reset all">
+	</form>
+      </td>
+      <td>
+	<form action="/delset" method="post">
+	  <input name="tsid" type="hidden" value="{{ tsid }}">
+	  <input type="submit" value="Delete this set">
+	</form>
+      </td>
+    </tr>
+  </table>
+  <hr>
+  {% if words is iterable %}
+    {{ navig }}
+    <table id="wrds" class="listing">
+      <tr>
+	<th>Word:</th>
+	<th>Description:</th>
+	<th>Right:</th>
+	<th>Wrong:</th>
+	<th>Status:</th>
+	<th></th>
+	<th></th>
+	<th></th>
+      </tr>
+      {% for w in words %}
+        <tr class="{{ loop.cycle('', 'alt') }}">
+          <td>
+	    {{ w.word }}
+	  </td>
+	  <td>
+	    {{ w.desc }}
+	  </td>
+	  <td class="aright">{{ w.good }}</td>
+	  <td class="aright">{{ w.bad }}</td>
+	  <td class="acenter">{{ w.status }}</td>
+	  <td class="acenter">
+	    <a href="/editword?tsid={{ tsid}}&amp;wid={{ w.id }}">Edit</a>
+	  </td>
+	  <td class="acenter">
+	    <a href="/editword?tsid={{ tsid}}&amp;wid={{ w.id }}&amp;reset=1">Reset</a>
+	  </td>
+	  <td class="acenter">
+	    <a href="/delword?tsid={{ tsid}}&amp;wid={{ w.id }}">Delete</a>
+	  </td>
+	</tr>
+      {% endfor %}
+    </table>
+    {{ navig }}
+  {% else %}
+    <p>
+      This set does not contain any words.  You can add some using the
+      form below.
+    </p>
+  {% endif %}
+  <hr>
+  <form name="addform" action="/addword" method="post">
+    <input name="tsid" type="hidden" value="{{ tsid }}">
+    <table>
+      <tr>
+	<td>Word:</td>
+	<td>Description</td>
+      </tr>
+      <tr>
+	<td>
+	  <input name="word" type="text" size="30"
+		 onkeypress="return spanish_letters(event)" value="">
+	</td>
+	<td>
+	  <textarea name="desc" rows="3" cols="50"></textarea>
+	</td>
+	<td>
+	  <input type="submit" value="Add a new word">
+	</td>
+      </tr>
+    </table>
+  </form>
+{% endblock %}

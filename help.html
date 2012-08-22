@@ -1,0 +1,253 @@
+{#
+mjvocabulary - Simple Google AppEngine based vocabulary tester
+Copyright (C) 2012 Martin Jambor
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %}Vocabulary test - Help{% endblock %}
+{% block content %}
+  <h1>Vocabulary test help</h1>
+
+  <h2>Table of contents</h2>
+  <ul>
+    <li><a href="#introduction">Introduction</a>
+    <li><a href="#mainpage">Main page</a>
+    <li><a href="#testsetpage">Test set page</a>
+    <li><a href="#spanishaccents">Entering Spanish accents</a>
+    <li><a href="#importexport">Importing and exporting</a>
+    <li><a href="#testing">Testing</a>
+    <li><a href="#bugs">Bugs, Wishes</a>
+  </ul>
+
+  <a name="introduction"></a>
+  <h2>Introduction</h2>
+
+  <p class="text">
+    First and foremost, this application has been hacked together
+    during evenings after regular work and I did not want to spend
+    more time than necessary on it, so it probably contains design
+    problems as well as plain bugs.  Fixing them might require I
+    delete data stored in the application.  Second, this site is
+    hosted
+    on <a href="https://developers.google.com/appengine/">Google App
+    Enginne</a> as a free app, which means it is subject to various
+    <a href="https://developers.google.com/appengine/docs/quotas">quotas
+    </a>. If all users collectively exceeded any of the quotas, the
+    application will most likely be unusable and data stored in it can
+    become inaccessible for up to a day.  On top of it, Google does not
+    give any guarantees and neither do I.  Therefore, <b>please make sure
+    that you back up any valuable data you enter into this application</b>
+    (see section on <a href="#importexport">export</a>.  If you don't you
+    might loose it or not be able to access it and it will be entirely your
+    fault.
+  </p>
+
+  <p class="text">
+    The concept of this application is simple.  You enter foreign words or
+    short phrases into it along with description so that the application
+    might give you a test, showing you only the description and requesting
+    that you enter the word or phrase.  The words are divided into sets and
+    the application always tests your knowledge of one set at a time,
+    asking for words in random order.  You successfully finish a set test
+    if you enter each word correctly twice as many times as incorrectly or
+    at least twice in case you never get it wrong.
+  </p>
+
+  <a name="mainpage"></a>
+  <h2>Main page</h2>
+
+  <p class="text">
+    Main page only lists your test sets.  You can create one by simply
+    entering its name and pressing the button "Create new set."  You can
+    also run a test on a particular set from this page by pressing the
+    "Test" button associated with a particular set but you obviously need
+    to add some words to your set.  Click on the name of a set to get to
+    its page where you can do that and much more.
+  </p>
+
+  <a name="testsetpage"></a>
+  <h2>Test set page</h2>
+
+  <p class="text">
+    The set page lists all words you have entered so far, together with
+    their abbreviated description, number of correct and incorrect answers,
+    status, and link to edit, reset, or delete a particular word.
+    Resetting a word means that its counters of incorrect and correct
+    answers are set to zero.  Any edit of a word will have the same effect.
+    You can add a new word using the simple form at the bottom of the page
+    (there is a section on <a href="#spanishaccents">entering Spanish
+    accents</a> below).
+  </p>
+
+  <p class="text">
+    Please be reasonable when entering words, don't try anything too fancy
+    or outright malicious, if you stretch it, it might break... probably
+    only for you which won't give me much incentive to fix it ;-) Also note
+    that while there is no theoretical limit on the number of words in a
+    single set, the test will only run on the first 300 active ones.
+    Personally, I usually create sets of 30-40 words.  Remember to backup
+    your data when they grow large.
+  </p>
+
+  <p class="text">
+    The buttons in a row above the listing allow you to run a test of this
+    set, give the current set a different name, import and export words
+    from a CSV (see a separate <a href="#importexport">section on import
+    and export</a>), reset all words in a set, or delete the whole set.
+    Deleting a set deletes all words stored in it without any way of
+    recovering them.  Backup your data when they grow large.
+  </p>
+
+  <a name="spanishaccents"></a>
+  <h2>Entering Spanish accents</h2> 
+
+  <p class="text">
+    This application has been written primarily to help me, my family and
+    friends learn Spanish vocabulary and therefore it has some limited and
+    clumsy support for typing Spanish accented letters on US keyboards.
+    You can enter any accented vowel by typing the vowel followed by either
+    a single quote ('), equality sign ("="), or plus ("+").  Similarly, if
+    you want to enter ñ, type a simple n followed by any of the three
+    special characters.  In order to type ü, type u followed by a double
+    quote.  Of course, if your layout allows for direct typing of these
+    characters (e.g. keyboards on phones with a touchscreen), you do not
+    have to use these workarounds.
+  </p>
+
+  <p class="text">
+    Note that this feature is implemented by some dubious JavaScript, which
+    is a language which I do not really know and which I abhor.  Therefore
+    it is entirely possible it will not work 100% or will have some weird
+    unintended consequences (see section on <a href="#bugs">bugs</a> if you
+    encounter something like this).
+  </p>
+
+  <p class="text">
+    There is no reason why you can't use this application to learn any
+    other language (or to memorize anything at all, actually), but if the
+    language has characters which can't be easily typed on your keyboard,
+    you'll have to be switching keyboard layouts.
+  </p>
+  
+  <a name="importexport"></a>
+  <h2>Importing and exporting</h2>
+
+  <p class="text">
+    If you press the "Export" button on a test set page, you'll be offered
+    to download all the words in the current set as a CSV (comma separated
+    values) file, which is a simple format which you should be able to open
+    in any spreadsheet editor such
+    as <a href="https://drive.google.com/">Google
+    Drive</a>, <a href="http://www.libreoffice.org/">LibreOffice</a>, or
+    Microsoft Office.  You can also look at it in any plain text viewer.
+    The format of the CSV file is simple.  One word per row (line).  In the
+    first column (field) there is the word itself and all other columns
+    contain the description, one line of the description each.  The CSV you
+    import or export is supposed to be in UTF8 unicode.
+  </p>
+
+  <p class="text">
+    <b>If you use export for backup, please at least briefly check that the
+    generated file contains all the words and descriptions before you
+    consider the backup successful!</b>  Because it is a simple download,
+    the exporting machinery does not do error handling very robustly.
+  </p>
+
+  <p class="text">
+    When you press the "Import" button on a test set page you'll be
+    presented with a page asking you where to import from.  You can either
+    upload a file from your local computer or have the CSV data downloaded
+    from a URL link.  In both cases, the data is expected to be in the same
+    format as above (one word per line, the word itself in the first field,
+    description lines in all the others).
+  </p>
+
+  <p class="text">
+    The URL option is mainly intended to be used
+    with <a href="https://drive.google.com/">Google Drive</a>.  If you have
+    a spreadsheet in there with words you want to import, click
+    "File"-&gt;"Publish to the web" in the menu.  First, click on "Start
+    publishing."  Then select CSV format in the section "Get a link to the
+    published data" the lower half of the window. Then copy the generated
+    URL from the text area below to the vocabulary application and hit
+    "Import from URL."  Words from your spreadsheet will be imported to the
+    current set.  Moreover, you can send this link to another user of this
+    application and he can import them too!
+  </p>
+
+  <p class="text">
+    Please be reasonable and careful when importing words, don't try
+    anything fancy or outright malicious.  Again, if you stretch the
+    application, it might break, probably only for you which won't give me
+    much incentive to fix it ;-) Also note that while there is no
+    theoretical limit on the number of words in a single set, the test will
+    only run on the first 300 active ones.  Importing huge data sets might
+    also deplete Google App
+    Engine <a href="https://developers.google.com/appengine/docs/quotas">quotas
+    </a>, rendering the application unusable for everybody.  Above all,
+    please make sure you never import garbage.
+  </p>
+
+  <a name="testing"></a>
+  <h2>Testing</h2>
+
+  <p class="text">
+    Hitting "Test" button on the main page or test set page runs the test.
+    The application will present you with the description of a word and you
+    are requested to type the word.  Then the application tells you whether
+    you were right or wrong, gives the correct answer and presents you with
+    another description.  Repeatedly, until you finish the test set.  You
+    can interrupt testing of a set and come back any time without loosing
+    your results so far, as long as you do not reset a word or set
+    (see <a href="#testsetpage">test set page section</a> for more on
+    resetting).
+  </p>
+
+  <p class="text">
+    Of course, you can use <a href="#spanishaccents">clumsy tricks to enter
+    Spanish accents</a> when entering the word into a test.
+  </p>
+
+  <a name="bugs"></a>
+  <h2>Bugs, Wishes...</h2>
+
+  <p class="text">
+    While I wrote this software hoping that it will be useful and intend to
+    use it often myself.  The nature of its speedy development means that
+    there certainly are quite a few bugs.  If you encounter one, please report
+    it (with a detailed description of the nature of the problem and steps how
+    to reproduce it)
+    using <a href="http://github.com/jamborm/mjvocabulary/issues">http://github.com/jamborm/mjvocabulary/issues</a>.
+    Unfortunately, I will often be unable to fix the problems in a timely
+    manner.  After all, this is my hobby, not my job.  On the other hand, bugs
+    that annoy me too will be fixed soon, I suppose :-)
+  </p>
+
+  <p class="text">
+    If you want to have a feature added, you can send me an email too but
+    don't hold your breath, I will probably too busy or lazy to implement it
+    anytime soon.  Alternatively, you can try and implement it yourself, the
+    source code and an interface to submit a git pull request is at
+    <a href="http://github.com/jamborm/mjvocabulary">http://github.com/jamborm/mjvocabulary</a>
+    too.
+  </p>
+
+  <p class="text">
+    I hope you'll find the application useful and fun to use.  Happy
+    testing!
+  </p>
+
+{% endblock %}

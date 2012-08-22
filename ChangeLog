@@ -1,0 +1,21 @@
+2012-08-22  Martin Jambor  <jamborm@jamborm.net>
+
+	* main.py: New file.
+	* LICENSE: Likewise.
+	* README: Likewise.
+	* app.yaml: Likewise.
+	* base.html: Likewise.
+	* confsetaction.html: Likewise.
+	* dispset.html: Likewise.
+	* editword.html: Likewise.
+	* help.html: Likewise.
+	* import.html: Likewise.
+	* importres.html: Likewise.
+	* index.html: Likewise.
+	* license.html: Likewise.
+	* login.html: Likewise.
+	* not_allowed.html: Likewise.
+	* setcompleted.html: Likewise.
+	* static/: Likewise.
+	* test.html: Likewise.
+	* users.html: Likewise.

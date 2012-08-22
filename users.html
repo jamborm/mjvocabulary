@@ -1,0 +1,65 @@
+{#
+mjvocabulary - Simple Google AppEngine based vocabulary tester
+Copyright (C) 2012 Martin Jambor
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %}Vocabulary test - User management{% endblock %}
+{% block content %}
+<h1>User management</h1>
+<hr>
+{% if users is iterable %}
+  {{ navig }}
+  <table class="listing">
+    <tr>
+      <th>Email:</th>
+      <th>Description:</th>
+      <th>Delete:</th>
+    </tr>
+    {% for u in users %}
+      <tr class="{{ loop.cycle('', 'alt') }}">
+        <td>
+	  {{ u.email|escape }}
+	</td>
+        <td>
+	  {{ u.desc|escape }}
+	</td>
+	<td class="acenter">
+	  <form action="/users" method="post">
+	    <input name="act" type="hidden" value="delete">
+	    <input name="email" type="hidden" value="{{ u.email }}">
+	    <input type="submit" value="Delete">
+	  </form>
+	</td>
+      </tr>
+    {% endfor %}
+  </table>
+  {{ navig }}
+{% else %}
+  <p>
+    No allowed users beside administrators, add users using the form below.
+  </p>
+{% endif %}
+<hr>
+<form action="/users" method="post">
+  <div> 
+    <input name="act" type="hidden" value="add">
+    Email:<input name="email" type="text" size="20" value="">
+    Desc:<input name="desc" type="text" size="20" value="">
+    <input type="submit" value="Create a new allowed user">
+  </div>
+</form>
+{% endblock %}

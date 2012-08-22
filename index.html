@@ -1,0 +1,78 @@
+{#
+mjvocabulary - Simple Google AppEngine based vocabulary tester
+Copyright (C) 2012 Martin Jambor
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block content %}
+<p>Hello {{ username }} and welcome to Vocabulary Test main page! </p>
+<p class="extra"> {{ extra_info }} </p>
+<p class="extra"> {{ extra_info_2 }} </p>
+<hr>
+{% if testsets is iterable %}
+  {{ navig }}
+  <table class="listing">
+    <tr>
+      <th>Name:</th>
+      <th>Creation date:</th>
+      {% if admin %}
+        <th>User:</th>
+      {% endif %}
+      <th>Take a test:</th>
+    </tr>
+    {% for tset in testsets %}
+      <tr class="{{ loop.cycle('', 'alt') }}">
+        <td>
+	  <a href="/dispset?tsid={{ tset.id }}">{{ tset.name|escape }}</a>
+	</td>
+        <td>
+	  {{ tset.date|escape }}
+	</td>
+	  {% if admin %}
+	    <td>
+	      {{ tset.owner }}
+	    </td>
+	  {% endif %}
+	<td class="acenter">
+	  <form action="/test" method="post">
+	    <input name="tsid" type="hidden" value="{{ tset.id }}">
+	    <input type="submit" value="Test">
+	  </form>
+	</td>
+      </tr>
+    {% endfor %}
+  </table>
+  {{ navig }}
+{% else %}
+  <p>
+    You do not have any set of words.  Start by creating one using the
+      form below.
+  </p>
+{% endif %}
+<hr>
+<form action="/addset" method="post">
+  <div> 
+    <input name="set_name" type="text" size="20" maxlength="30" value="">
+    <input type="submit" value="Create a new set">
+  </div>
+</form>
+{% if admin %}
+  <p>
+    <a href="/?all=1">All users' sets</a><br>
+    <a href="/users">Manage users</a>
+  </p>
+{% endif %}
+{% endblock %}

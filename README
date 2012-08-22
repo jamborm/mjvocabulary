@@ -1,0 +1,50 @@
+mjvocabulary - Simple Google AppEngine based vocabulary tester
+Copyright (C) 2012 Martin Jambor
+
+0. LICENSE
+
+   Please refer to file LICENSE.
+
+1. Introduction
+
+    The concept of this application is simple.  You enter foreign words or
+    short phrases into it along with description so that the application
+    might give you a test, showing you only the description and requesting
+    that you enter the word or phrase.  The words are divided into sets and
+    the application always tests your knowledge of one set at a time,
+    asking for words in random order.  You successfully finish a set test
+    if you enter each word correctly twice as many times as incorrectly or
+    at least twice in case you never get it wrong.
+
+    Once installed, click the help link at the bottom of most pages to
+    obtain more information on various features of the program.
+
+2. Implementation
+
+    The program is a web-based application using Google's AppEngine
+    framework and its Python 2.7 interface.  Please refer to Google's
+    tutorial and documentation of AppEngine for further details.
+
+3. Installation
+
+   The application can be installed to Google's servers by means of
+   the appcfg.py script from Google AppEngine SDK.  Before you do
+   that, however, you'll need to register your application in App
+   Engine Administration Console.  Afterwards, you will have to change
+   the application name in app.yaml to the name of your application
+   (mjvocabulary is already taken).
+
+   The application can also be run smoothly from within the SDK's
+   dev_appserver.py.
+
+   After installation, only the application administrator is allowed
+   to log in.  Click on "Manage users" to add email addresses of other
+   users that should be allowed to use the application.
+
+4. Bugs, problems, contributions
+
+   Please report bugs and enhancement suggestions using
+   http://github.com/jamborm/mjvocabulary/issues.  If you want to
+   contribute, the source code and an interface to submit a git pull
+   request is at http://github.com/jamborm/mjvocabulary too.
+   
